@@ -7,10 +7,10 @@ import cv2
 from picamera2 import Picamera2, CompletedRequest, MappedArray
 from picamera2.devices.imx500 import IMX500, NetworkIntrinsics
 
-# Inicializar pygame
+# Inicializa pygame
 pygame.init()
 
-# Configuración ventana principal (menor para menú)
+# Configuración ventana principal
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("PoseNet IMX500 - Selector Keypoints")
@@ -23,7 +23,7 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GRAY = (128, 128, 128)
 
-# Nombres de los 17 keypoints COCO
+# Nombres de los 17 keypoints
 KEYPOINT_NAMES = [
     "Nariz", "Ojo_Izq", "Ojo_Der", "Oreja_Izq", "Oreja_Der",
     "Hombro_Izq", "Hombro_Der", "Codo_Izq", "Codo_Der",
@@ -39,8 +39,8 @@ class PoseNetApp:
         
         # Estado del menú
         self.menu_active = True
-        self.selected_kp = -1  # Keypoint seleccionado (-1 = todos)
-        self.keypoints_data = []  # Datos actuales de keypoints
+        self.selected_kp = -1  
+        self.keypoints_data = [] 
         
         self.setup_camera()
     
@@ -48,14 +48,14 @@ class PoseNetApp:
         config = self.picam2.create_preview_configuration(main={"size": (WINDOW_WIDTH, WINDOW_HEIGHT)})
         self.picam2.configure(config)
         self.imx500.show_network_fw_progress_bar()
-        self.picam2.start(config, show_preview=False)  # Sin preview auto
+        self.picam2.start(config, show_preview=False)
         self.imx500.set_auto_aspect_ratio()
         
         # Callback para procesar keypoints
         self.picam2.pre_callback = self.pose_callback
     
     def pose_callback(self, request: CompletedRequest):
-        """Captura keypoints en background"""
+        """Captura keypoints"""
         np_outputs = self.imx500.get_outputs(request.get_metadata(), add_batch=True)
         if np_outputs and len(np_outputs) > 0:
             heatmaps = np_outputs[0][0]  # (23,31,17)
@@ -84,7 +84,7 @@ class PoseNetApp:
                 })
     
     def draw_pose_overlay(self, surface):
-        """Dibuja keypoints en superficie pygame"""
+        """Dibuja keypoints"""
         h, w = WINDOW_HEIGHT, WINDOW_WIDTH
         
         for kp_data in self.keypoints_data:
@@ -167,7 +167,7 @@ class PoseNetApp:
                 
                 if event.type == pygame.MOUSEBUTTONDOWN and self.menu_active:
                     mouse_pos = pygame.mouse.get_pos()
-                    button_rects = self.draw_menu(screen)  # Recalcular rects
+                    button_rects = self.draw_menu(screen)
                     
                     for rect, kp_id in button_rects:
                         # Comprueba si el usuario esta dentro del rectangulo
@@ -180,19 +180,19 @@ class PoseNetApp:
             frame = request.make_array("main")
             request.release()
             
-            # Convertir BGR (OpenCV) a RGB
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #(h, w, 3)
+            # Convertir BGR a RGB
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
             frame_rgb = np.ascontiguousarray(frame_rgb)
-            frame_pygame = pygame.surfarray.make_surface(frame_rgb.swapaxes(0,1)) # (w, h, 3)
+            frame_pygame = pygame.surfarray.make_surface(frame_rgb.swapaxes(0,1))
             frame_pygame = pygame.transform.scale(frame_pygame, (WINDOW_WIDTH, WINDOW_HEIGHT))
             
             # Copia la imagen frame_pygame en la esquina superior izquierda (0,0)
             screen.blit(frame_pygame, (0, 0))
             
-            # Dibujar keypoints
+            # Dibuja keypoints
             self.draw_pose_overlay(screen)
             
-            # Dibujar menu si activo
+            # Dibuja menu si activo
             if self.menu_active:
                 button_rects = self.draw_menu(screen)
             
@@ -200,7 +200,6 @@ class PoseNetApp:
             pygame.display.flip()
             clock.tick(30)
         
-        # Cleanup
         self.picam2.stop()
         self.imx500.stop()
         pygame.quit()
