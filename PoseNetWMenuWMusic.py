@@ -243,22 +243,6 @@ class PianoPoseApp:
         surface.blit(info2, (20, 615))
             
         return button_inst
-        
-        '''
-        if self.selected_kp >= 0:
-            kp_name = KEYPOINT_NAMES[self.selected_kp]
-            info1 = font_info.render(f"KP: {kp_name} ({self.selected_kp})", True, WHITE)
-            surface.blit(info1, (20, 450))
-        
-        if self.selected_instrument:
-            info2 = font_info.render(f"♪ {self.selected_instrument}", True, GREEN)
-            surface.blit(info2, (20, 480))
-        '''
-        '''
-        if self.current_zone is not None:
-            info4 = font_info.render(f"Zona: {self.current_zone}", True, YELLOW)
-            surface.blit(info4, (20, 550))
-        '''
     
     def run(self):
         clock = pygame.time.Clock()
@@ -337,8 +321,7 @@ class PianoPoseApp:
         self.imx500.stop()
         pygame.quit()
 
-# MEJORADOS MENUS, Y SONIDOS OK => MIRAR SI DESAPARECEN LOS SONIDOS AL PULSAR EL BOTON TODOS
-# MEJORAR LO DE QUE NO ES FLUIDA LA PANTALLA
+# MEJORADOS MENUS, Y SONIDOS OK 
 if __name__ == "__main__":
     app = PianoPoseApp()
     app.run()
