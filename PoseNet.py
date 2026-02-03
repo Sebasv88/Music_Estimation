@@ -97,15 +97,14 @@ def picamera2_pre_callback(request: CompletedRequest):
 if __name__ == "__main__":
     model_path = "/usr/share/imx500-models/imx500_network_posenet.rpk"
     
-    # ANTES Picamera2() - CRÍTICO (igual oficial)
     imx500 = IMX500(model_path)
     intrinsics = imx500.network_intrinsics
     
     if intrinsics.task != "pose estimation":
-        print("❌ No es modelo de pose estimation")
+        print("No es modelo de pose estimation")
         sys.exit(1)
     
-    # Configuración igual
+    # Configuración
     picam2 = Picamera2(imx500.camera_num)
     config = picam2.create_preview_configuration(
         main={"size": (1920, 1080)},
