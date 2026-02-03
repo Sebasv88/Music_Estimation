@@ -32,24 +32,30 @@ Este proyecto combina visión por computadora y música generativa: detecta la p
 
 📥 INSTALACIÓN
 
-Clona este repositorio
+Clona este repositorio:
     
     git clone https://github.com/Sebasv88/Music_Estimation.git
     cd Music_Estimation
 
 Instala dependencias:
-    - Python 3
-    - Pygame
-    - Numpy
-    - OpenCV
-    - Picamera2
-    - IMX500
-    
-    # IMX500
-    sudo apt install imx500-all
-    pip install opencv-python pygame
 
-Descarga el modelo PoseNet imx500_network_posenet.rpk y sitúa en la siguiente ruta /usr/share/imx500-models/
+FW del IMX500
+
+    sudo apt install imx500-all
+
+OpenCV
+
+    sudo apt install python3-opencv python3-munkres
+
+Picamera2 (si no está pre-instalado, normalmente en las placas raspberry pi que lo soportan ya lo tienen instalado)
+
+    sudo apt install python3-picamera2 --no-install-recommends
+
+PyGame
+
+    sudo apt install python3-pygame
+
+Busca el modelo PoseNet imx500_network_posenet.rpk en la siguiente ruta /usr/share/imx500-models/
 
 🧪 USO
 
