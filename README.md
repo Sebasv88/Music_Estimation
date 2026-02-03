@@ -74,17 +74,18 @@ Ejecuta uno de los scripts principales:
 
 Puedes ajustar:
 - Instrumentos sonoros: sustituye los archivos de sonido en la carpeta instrumentos/.
-- Zonas de activación: cambia o modifica la regiones para reproducir más o menos melodías.
+- Zonas de activación: cambia el umbral para modificar la sensibilidad del modelo.
 - Modelo de pose: sustituye o mejora el modelo de estimación por otro más avanzado.
 
 
 📈 POSIBLES MEJORAS
-- Añadir más instrumentos y sonidos personalizados.
+- Añadir más instrumentos, melodías o sonidos personalizados según la aplicación deseada.
 - Integrar modelos más avanzados de pose (por ejemplo, detectores 3D).
-- Añadir visualizaciones musicales sincronizadas con el movimiento.
-- Aplicación móvil o web para que sea accesible desde cualquier dispositivo.
+- Incorporar visualizaciones musicales sincronizadas con el movimiento.
+- Aplicación móvil o web para garantizar accesibilidad desde cualquier dispositivo.
 
 🤝 Contribuciones
+
 ¡Las contribuciones son bienvenidas!
 Sigue estos pasos:
 - Haz un fork del proyecto.
