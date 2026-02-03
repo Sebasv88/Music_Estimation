@@ -1,76 +1,76 @@
-# MUSIC_ESTIMATION
-Sistema interactivo que utiliza estimación de poses para reproducir sonidos de instrumentos musicales moviendo articulaciones específicas.
+# MUSIC ESTIMATION
+Sistema interactivo que utiliza estimación de poses para la reproducción de sonidos de instrumentos musicales moviendo articulaciones específicas, según la movilidad motora de la persona en cuestión.
 
-Este proyecto combina visión por computadora y música generativa: detecta la pose corporal de una persona (por ejemplo, manos, codos, etc.) y, al asociar movimientos de articulaciones concretas con sonidos de instrumentos, genera música en tiempo real.
+Este proyecto combina visión por computadora y música generativa: detecta la pose corporal de una persona por defecto y, únicamente al seleccionar un determinado conjunto {keypoint, instrumento} desde el menú principal, genera música en tiempo real con el movimiento.
 
 🚀 CARACTERÍSTICAS
 - Detecta y sigue articulaciones corporales usando Pose Estimation.
-- Vincula movimientos de puntos clave con sonidos de instrumentos (piano, guitarra, batería, etc.).
-- Modo con menú gráfico para seleccionar opciones y experimentar con distintos sonidos.
-- Interfaz intuitiva para reproducir instrumentación con movimientos del cuerpo.
+- Proporciona un menú interactivo con diferentes opciones:
+    - Selección de keypoint (articulación).
+    - Selección de instrumento {Guitarra, Piano, Flauta}
+    - Selección por defecto (pose corporal completa = 17 keypoints).
+- Divide la pantalla en cuatro regiones según las melodías especificadas {Do, Re, Mi, Fa}.
+- Genera los sonidos del instrumento en el movimiento, al cruzar de una zona a otra.
+- Destaca la zona actual proporcionando un contorno diferente.
 
 📦 ESTRUCTURA
-Music_Estimation/
-├── PoseNet.py  
-├── PoseNetWMenu.py  
-├── PoseNetWMenuWMusic.py  
-├── Instrumentos/
-    ├── V
-    ├── G
-    ├── F
-    ├── A
-├── PiCamera/
-├── requeriments.txt  
-└── README.md
 
-- PoseNet.py: implementación base de estimación de poses.
-- PoseNetWMenu.py: versión con menú gráfico para facilitar la interacción.
-- PoseNetWMenuWMusic.py: versión extendida que asocia movimientos con reproducción de sonidos de instrumentos.
+<pre> 
+    Music_Estimation/ 
+    ├── PoseNet.py 
+    ├── PoseNetWMenu.py 
+    ├── PoseNetWMenuWMusic.py 
+    ├── instrumentos/ 
+    ├── piCamera/ 
+    ├── Icon/ 
+    └── README.md 
+</pre>
 
-🧠 FUNCIONAMIENTO
-1. Captura de vídeo: el sistema usa la cámara para capturar vídeo en tiempo real.
-2. Estimación de pose: un modelo (por ejemplo, basado en PoseNet o MediaPipe) calcula las posiciones de articulaciones clave.
-3. Mapeo a sonidos: al detectar que una articulación supera un umbral o cruza una zona definida, se reproduce un sonido de instrumento asignado.
-4. Realimentación en tiempo real: puedes ver tu pose y experimentar con los sonidos al mover tus brazos o piernas.
+- PoseNet.py: implementación base de estimación de poses, a partir del modelo PoseNet.
+- PoseNetWMenu.py: versión con menú gráfico para la selección de un keypoint determinado.
+- PoseNetWMenuWMusic.py: versión extendida que permite la selección de un instrumento y reproducción de cuatro melodías definidas en Music_Estimation/instrumentos {Do, Re, Mi, Fa} al mover la articulación seleccionada.
 
 📥 INSTALACIÓN
-1. Clona este repositorio:
-  git clone https://github.com/Sebasv88/Music_Estimation.git
-  cd Music_Estimation
 
-2. Crea un entorno virtual (opcional pero recomendado):
-    python3 -m venv venv
-    source venv/bin/activate  # macOS/Linux
-    venv\Scripts\activate     # Windows
+Clona este repositorio
+    
+    git clone https://github.com/Sebasv88/Music_Estimation.git
+    cd Music_Estimation
 
-3. Instala dependencias:
-    pip install -r requirements.txt
+Instala dependencias:
+    - Python 3
+    - Pygame
+    - Numpy
+    - OpenCV
+    - Picamera2
+    - IMX500
+    
+    # IMX500
+    sudo apt install imx500-all
+    pip install opencv-python pygame
 
-4. Asegúrate de tener una cámara conectada si quieres usar funcionalidades en tiempo real.
+Descarga el modelo PoseNet imx500_network_posenet.rpk y sitúa en la siguiente ruta /usr/share/imx500-models/
 
 🧪 USO
+
 Ejecuta uno de los scripts principales:
+
     python PoseNetWMenuWMusic.py
 
-- Selecciona en pantalla las opciones que desees (instrumentos, zonas de activación, sensibilidad, etc.).
-- Muévete frente a la cámara y escucha cómo los sonidos responden a tus articulaciones.
+1. La aplicación muestra la venta de vista previa y un menú interactivo en la parte lateral izquierda.
+2. Por defecto realiza la estimación de poses por completo, es decir, refleja todos los keypoints detectados.
+3. Selecciona con el ratón un determinado keypoint según la movilidad motora del usuario. El determinado es identificado con un color diferente.
+4. Si se ha especificado una articulación, un submenú pasa a mostrarse, permitiendo la selección de un instrumento.
+5. Una vez escogido el preferido, la aplicación reproduce la nota musical en base a la posición espacial (x,y) de la articulación en cuestión y la zona contenida. 
+6. El botón "TODOS" devulve la aplicación a su estado original, suprimiendo la parte musical y el menú en cuestión.
 
 🔧 PERSONALIZACIÓN
 
 Puedes ajustar:
-- Instrumentos sonoros: sustituye los archivos de sonido en la carpeta assets/sounds/.
-- Zonas de activación: cambia las coordenadas o thresholds para hacer la experiencia más sensible o precisa.
+- Instrumentos sonoros: sustituye los archivos de sonido en la carpeta instrumentos/.
+- Zonas de activación: cambia o modifica la regiones para reproducir más o menos melodías.
 - Modelo de pose: sustituye o mejora el modelo de estimación por otro más avanzado.
 
-🧩 REQUISITOS
-Este proyecto puede utilizar librerías como:
-- opencv-python
-- mediapipe / tensorflow / posenet (según implementación)
-- pygame o similares para reproducir audio
-(añade estas librerías en tu requirements.txt si no lo están)
-
-Instálalas con:
-    pip install opencv-python mediapipe pygame
 
 📈 POSIBLES MEJORAS
 - Añadir más instrumentos y sonidos personalizados.
