@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-"""
-Tu PoseNet con estructura EXACTA del demo oficial
-"""
-
 import time, sys
 import numpy as np
 import cv2
 from picamera2 import Picamera2, CompletedRequest, MappedArray
 from picamera2.devices.imx500 import IMX500, NetworkIntrinsics
 
-# IGUAL QUE OFICIAL
+
 last_keypoints = None
 last_scores = None
-WINDOW_SIZE_H_W = (1080, 1920)  # TU resolución
+WINDOW_SIZE_H_W = (1080, 1920)
 
 def ai_output_tensor_parse(metadata):
     """Parsea TU modelo (igual estructura oficial)"""
@@ -99,7 +95,6 @@ def picamera2_pre_callback(request: CompletedRequest):
     ai_output_tensor_draw(request, scores, keypoints)
 
 if __name__ == "__main__":
-    # TU MODELO (igual que oficial pero cambiado)
     model_path = "/usr/share/imx500-models/imx500_network_posenet.rpk"
     
     # ANTES Picamera2() - CRÍTICO (igual oficial)
@@ -110,21 +105,19 @@ if __name__ == "__main__":
         print("❌ No es modelo de pose estimation")
         sys.exit(1)
     
-    # Configuración igual que oficial
+    # Configuración igual
     picam2 = Picamera2(imx500.camera_num)
     config = picam2.create_preview_configuration(
         main={"size": (1920, 1080)},
         controls={'FrameRate': 30}, buffer_count=12
     )
     
-    # INICIO igual que oficial
+    # Inicio
     imx500.show_network_fw_progress_bar()
     # Mostrar ventana
     picam2.start(config, show_preview=True)
     imx500.set_auto_aspect_ratio()
     picam2.pre_callback = picamera2_pre_callback
-    
-    print("✅ Tu PoseNet ejecutándose!")
     
     while True:
         time.sleep(0.5)
